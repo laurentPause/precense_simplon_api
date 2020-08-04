@@ -37,7 +37,12 @@ app.configure(express.rest());
 app.configure(socketio());
 // Register a nicer error handler than the default Express one
 app.use(express.errorHandler());
-
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, PATCH, DELETE, OPTIONS');
+    next();
+  });
 // Routes API
 routes(app);
 

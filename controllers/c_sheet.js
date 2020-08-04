@@ -1,18 +1,80 @@
 const axios = require('axios').default
 
 exports.vue = async function (req, res){
-await axios.get('https://spreadsheets.google.com/feeds/cells/1birYMFSaYsIZZLC_m1zNXWs2Ir4s_Hfip9Rh4OUxckk/1/public/full?alt=json')
+await axios.get('https://spreadsheets.google.com/feeds/cells/'+req.params.id+'/1/public/full?alt=json')
   .then(function (response) {
     // handle success
-    console.log(response.data);
-    const result = response.data
-    res.json({
-        message: result
+    const result = filtreData(response.data.feed.entry)
+    res.status(200).json({
+        sheet: response.data.feed.entry,
+        fiche: result
       });
   }).catch(function(e){
       console.log(e)
-      res.json({
+      res.status(400).json({
         message: e
       });
   })
+}
+
+function filtreData(data,type){
+  var semaine = []
+  var apprenants = []
+  var formateurs = []
+  var apprenant = {nom: '', prenom: ''}
+  data.forEach(element => {
+    if(!limite(element.gs$cell,'semaine')){
+      semaine.push(element.gs$cell.$t)
+    }else if(!limite(element.gs$cell,'apprenants')){
+      if(element.gs$cell.col == '1'){
+        apprenant.nom = element.gs$cell.$t
+      }else{
+        apprenant.prenom = element.gs$cell.$t
+        apprenants.push(apprenant)
+        apprenant = {nom: '', prenom: ''}
+      }  
+    }else if(!limite(element.gs$cell,'formateurs')){
+      formateurs.push(element.gs$cell.$t)
+    }
+  });
+  
+  return {
+    semaine: semaine,
+    apprenants: apprenants,
+    formateurs: formateurs
+  }
+}
+
+function limite(data,type){
+  var result;
+  switch (type) {
+    case 'semaine':
+      if(data.row != '1'){
+        result = true
+      }else{
+        result = false
+      }
+      break;
+    case 'apprenants':
+      if(data.col > 2){
+        result = true
+      }else{
+        result = false
+      }
+      break;
+    
+    case 'formateurs':
+      if(data.col < 2){
+        result = true
+      }else{
+        result = false
+      }
+      break;
+  
+    default:
+      break;
+  }
+  return result
+
+
 }
