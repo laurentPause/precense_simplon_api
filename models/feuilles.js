@@ -16,16 +16,29 @@ const ObjectId = mongoose.Schema.Types.ObjectId
  */
 const feuillesSchema = mongoose.Schema({
 
-  urlSheet: {
+  idSheet: {
     type: String,
     required: true
   },
   logo: {
-    type: Buffer,
+    type: String,
     required: true
   },
   section: {
     type: ObjectId,
+    required: true,
+    ref: 'sections'
+  },
+  semaine: {
+    type: Array,
+    required: true
+  },
+  apprenants: {
+    type: Array,
+    required: true
+  },
+  formateurs: {
+    type: Array,
     required: true
   }
 })

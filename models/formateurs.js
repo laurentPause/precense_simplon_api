@@ -23,6 +23,10 @@ const formateursSchema = mongoose.Schema({
   prenom: {
     type: String,
     required: true
+  },
+  code: {
+    type: String,
+    required: true
   }
 })
 

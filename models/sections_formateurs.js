@@ -25,6 +25,10 @@ const sections_formateursSchema = mongoose.Schema({
     type: ObjectId,
     required: true,
     ref: 'formateurs'
+  },
+  role: {
+    type: String,
+    required: true
   }
 })
 
