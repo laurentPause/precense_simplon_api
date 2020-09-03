@@ -47,7 +47,10 @@ module.exports = function (app) {
   app.route('/lien')
     .post(lien.add)
   
-    // Lien routes
+  // user routes
   app.route('/user')
     .post(user.add)
+  
+  app.route('/user/find')
+    .post(user.find)
 };

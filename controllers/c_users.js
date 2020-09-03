@@ -44,3 +44,18 @@ exports.add = async function (req, res) {
     }
     
 }
+
+exports.find = async function (req, res) {
+    try{
+        const users = await Users.find(req.body.fitre)
+        res.status(200).json({
+            message: 'OK',
+            users: users
+          });
+    }catch(e){
+        res.status(400).json({
+            message: 'KO'
+          });
+    }
+    
+}
