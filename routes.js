@@ -4,6 +4,7 @@ module.exports = function (app) {
   const formateur = require('./controllers/c_formateur')
   const fiche = require('./controllers/c_fiche')
   const lien = require('./controllers/c_lien')
+  const user = require('./controllers/c_users')
   
 
   // Sheet routes
@@ -45,4 +46,8 @@ module.exports = function (app) {
   // Lien routes
   app.route('/lien')
     .post(lien.add)
+  
+    // Lien routes
+  app.route('/user')
+    .post(user.add)
 };

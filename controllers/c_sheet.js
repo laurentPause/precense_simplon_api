@@ -21,7 +21,7 @@ function filtreData(data,type){
   var semaine = []
   var apprenants = []
   var formateurs = []
-  var apprenant = {nom: '', prenom: ''}
+  var apprenant = {code: '', signatures: []}
   var signature = []
   for (let index = 0; index < 10; index++) {
     signature.push({signature: ''})
@@ -31,14 +31,10 @@ function filtreData(data,type){
     if(!limite(element.gs$cell,'semaine')){
       semaine.push(element.gs$cell.$t)
     }else if(!limite(element.gs$cell,'apprenants')){
-      if(element.gs$cell.col == '1'){
-        apprenant.nom = element.gs$cell.$t
-      }else{
-        apprenant.prenom = element.gs$cell.$t
+        apprenant.code = element.gs$cell.$t
         apprenant.signatures = signature
         apprenants.push(apprenant)
-        apprenant = {nom: '', prenom: '', signatures: signature}
-      }  
+        apprenant = {code: '', signatures: []} 
     }else if(!limite(element.gs$cell,'formateurs')){
       formateurs.push(element.gs$cell.$t)
     }
@@ -62,7 +58,7 @@ function limite(data,type){
       }
       break;
     case 'apprenants':
-      if(data.col > 2){
+      if(data.col > 1){
         result = true
       }else{
         result = false
@@ -70,7 +66,7 @@ function limite(data,type){
       break;
     
     case 'formateurs':
-      if(data.col < 2){
+      if(data.col == 1){
         result = true
       }else{
         result = false
