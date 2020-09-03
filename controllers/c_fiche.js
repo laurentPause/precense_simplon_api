@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Fiches = require("../models/feuilles");
 const Formateurs = require("../models/feuilles");
+const { constants } = require("fs");
 
 exports.add = async function (req, res) {
     try {
@@ -51,9 +52,14 @@ exports.update = async function (req, res) {
 
 exports.signature = async function (req, res) {
     try {
+        const apprenant = req.body.apprenant
+        const index = req.body.apprenant
+        const signature = req.body.signature
         const fiche = await Fiches.findByIdAndUpdate(
             req.body.id, {
-                apprenants: req.body.apprenants
+                $set :{
+                    [`apprenants.${apprenant}.signatures.${index}.signature`]: signature
+                }
             }
         )
         res.status(200).json({
@@ -103,5 +109,19 @@ exports.all = async function (req, res) {
             erreur: e
         });
     }
+}
 
+exports.one = async function (req, res) {
+    try {
+        const fiches = await Fiches.findById(req.params.id).populate('section');
+        res.status(200).json({
+            message: 'OK',
+            fiches: fiches
+        })
+    } catch (e) {
+        res.status(400).json({
+            message: 'KO',
+            erreur: e
+        });
+    }
 }
