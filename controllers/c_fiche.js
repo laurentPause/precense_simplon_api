@@ -29,13 +29,31 @@ exports.add = async function (req, res) {
 exports.update = async function (req, res) {
     try {
         const fiche = await Fiches.findByIdAndUpdate(
-            req.body.id, {
-                idSheet: req.body.idSheet,
-                logo: req.body.logo,
-                section: req.body.section,
+            req.params.id, {
                 semaine: req.body.semaine,
                 apprenants: req.body.apprenants,
                 formateurs: req.body.formateurs
+            }
+        )
+        res.status(200).json({
+            message: 'OK'
+        });
+
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({
+            message: 'KO',
+            erreur: e
+        });
+    }
+
+}
+
+exports.signature = async function (req, res) {
+    try {
+        const fiche = await Fiches.findByIdAndUpdate(
+            req.body.id, {
+                apprenants: req.body.apprenants
             }
         )
         res.status(200).json({
@@ -56,7 +74,7 @@ exports.update = async function (req, res) {
 exports.delete = async function (req, res) {
     try {
         const fiche = await Fiches.findOneAndDelete(
-            req.body.id
+           { _id: req.params.id }
         )
         res.status(200).json({
             message: 'OK'

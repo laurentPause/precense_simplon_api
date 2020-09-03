@@ -3,6 +3,7 @@ module.exports = function (app) {
   const section = require('./controllers/c_section')
   const formateur = require('./controllers/c_formateur')
   const fiche = require('./controllers/c_fiche')
+  const lien = require('./controllers/c_lien')
   
   app.route('/sheet/:id')
     .get(sheet.vue);
@@ -26,6 +27,16 @@ module.exports = function (app) {
     .get(fiche.all)
     .put(fiche.update)
     .delete(fiche.delete)
+  
+  app.route('/fiche/:id')
+    .put(fiche.update)
+    .delete(fiche.delete)
+
+  app.route('/signature')
+    .put(fiche.signature)
+
+  app.route('/lien')
+    .post(lien.add)
 
 
 };

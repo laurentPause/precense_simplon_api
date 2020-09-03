@@ -22,6 +22,11 @@ function filtreData(data,type){
   var apprenants = []
   var formateurs = []
   var apprenant = {nom: '', prenom: ''}
+  var signature = []
+  for (let index = 0; index < 10; index++) {
+    signature.push({signature: ''})
+    
+  }
   data.forEach(element => {
     if(!limite(element.gs$cell,'semaine')){
       semaine.push(element.gs$cell.$t)
@@ -30,8 +35,9 @@ function filtreData(data,type){
         apprenant.nom = element.gs$cell.$t
       }else{
         apprenant.prenom = element.gs$cell.$t
+        apprenant.signatures = signature
         apprenants.push(apprenant)
-        apprenant = {nom: '', prenom: ''}
+        apprenant = {nom: '', prenom: '', signatures: signature}
       }  
     }else if(!limite(element.gs$cell,'formateurs')){
       formateurs.push(element.gs$cell.$t)
