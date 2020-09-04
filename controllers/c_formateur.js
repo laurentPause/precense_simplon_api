@@ -60,13 +60,10 @@ exports.all = async function (req, res) {
 
 exports.find = async function (req, res) {
     try{
-        const formateurs = await Sections_Formateurs.find({
-            section: req.body.section,
-            role: req.body.role
-        })
+        const formateurs = await Formateurs.find(req.body.fitre)
         res.status(200).json({
             message: 'OK',
-            formateurs: formateurs
+            results: formateurs
           });
     }catch(e){
         res.status(400).json({
