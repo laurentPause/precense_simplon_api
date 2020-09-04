@@ -59,3 +59,19 @@ exports.find = async function (req, res) {
     }
     
 }
+
+exports.one = async function (req, res) {
+    try{
+        console.log(req.params.code)
+        const user = await Users.findOne({login: req.params.code})
+        res.status(200).json({
+            message: 'OK',
+            results: user
+          });
+    }catch(e){
+        res.status(400).json({
+            message: 'KO'
+          });
+    }
+    
+}

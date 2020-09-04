@@ -51,6 +51,9 @@ module.exports = function (app) {
   app.route('/user')
     .post(user.add)
   
+  app.route('/user/:code')
+    .get(user.one)
+  
   app.route('/user/find')
     .post(user.find)
 };
